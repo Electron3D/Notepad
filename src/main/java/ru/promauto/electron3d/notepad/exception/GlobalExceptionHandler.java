@@ -1,4 +1,4 @@
-package ru.promauto.electron3d.notepad.exceprion;
+package ru.promauto.electron3d.notepad.exception;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
