@@ -11,7 +11,7 @@ import ru.promauto.electron3d.notepad.service.NoteService;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/notes")
+@RequestMapping("/users/{userId}/notes")
 @RequiredArgsConstructor
 public class NoteController {
     private final NoteService noteService;
@@ -19,34 +19,36 @@ public class NoteController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public RestResponse createNote(NoteDto noteDto) {
-        noteService.create(noteMapper.dtoToEntity(noteDto));
+    public RestResponse createNote(@PathVariable Long userId, @RequestBody NoteDto noteDto) {
+        noteService.create(userId, noteMapper.dtoToEntity(noteDto));
         return new RestResponse("Note created.");
     }
 
     @GetMapping("/{id}")
-    public RestResponse getNoteById(@PathVariable Long id) {
-        return new RestResponse(noteMapper.entityToDto(noteService.findById(id)));
+    public RestResponse getNoteById(@PathVariable Long userId, @PathVariable Long id) {
+        return new RestResponse(noteMapper.entityToDto(noteService.findById(userId, id)));
     }
 
     @GetMapping
-    public RestResponse getAllNotes() {
-        return new RestResponse(noteService.findAll()
+    public RestResponse getAllNotes(@PathVariable Long userId) {
+        return new RestResponse(noteService.findAll(userId)
                 .stream()
                 .map(noteMapper::entityToDto)
                 .collect(Collectors.toList()));
     }
 
     @PutMapping("/{id}")
-    public RestResponse updateNoteById(@PathVariable Long id, @RequestBody NoteDto noteDto) {
-        noteService.updateById(id, noteMapper.dtoToEntity(noteDto));
+    public RestResponse updateNoteById(@PathVariable Long userId,
+                                       @PathVariable Long id,
+                                       @RequestBody NoteDto noteDto) {
+        noteService.updateById(userId, id, noteMapper.dtoToEntity(noteDto));
         return new RestResponse("Note with ID \"" + id + "\" updated.");
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public RestResponse deleteNoteById(@PathVariable Long id) {
-        noteService.deleteById(id);
+    public RestResponse deleteNoteById(@PathVariable Long userId, @PathVariable Long id) {
+        noteService.deleteById(userId, id);
         return new RestResponse("Note with ID \"" + id + "\" deleted.");
     }
 }

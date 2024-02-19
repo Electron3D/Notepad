@@ -19,7 +19,7 @@ public class UserController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public RestResponse createUser(UserDto userDto) {
+    public RestResponse createUser(@RequestBody UserDto userDto) {
         userService.create(userMapper.dtoToEntity(userDto));
         return new RestResponse("User created");
     }
@@ -40,7 +40,7 @@ public class UserController {
     @PutMapping("/{id}")
     public RestResponse updateUserById(@PathVariable Long id, @RequestBody UserDto userDto) {
         userService.updateById(id, userMapper.dtoToEntity(userDto));
-        return new RestResponse("User with id \"" + id + "\" updated.");
+        return new RestResponse("User with ID \"" + id + "\" updated.");
     }
 
     @DeleteMapping("/{id}")

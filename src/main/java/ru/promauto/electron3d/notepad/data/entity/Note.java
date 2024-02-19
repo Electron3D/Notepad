@@ -22,7 +22,7 @@ public class Note {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
-    @OneToMany(mappedBy = "note")
+    @OneToMany(mappedBy = "note", cascade = CascadeType.REMOVE)
     private List<Comment> comments;
     @Enumerated(EnumType.STRING)
     private Tag tag;

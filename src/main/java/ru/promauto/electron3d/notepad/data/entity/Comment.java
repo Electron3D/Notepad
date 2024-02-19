@@ -22,7 +22,7 @@ public class Comment {
     @ManyToOne
     @JoinColumn(name = "note_id")
     private Note note;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "parentComment_id")
     private Comment parrentComment;
 }

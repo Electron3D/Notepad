@@ -6,6 +6,7 @@ import lombok.Getter;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -16,10 +17,20 @@ import java.util.Set;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
+    @ExceptionHandler(AlreadyExistException.class)
+    protected ResponseEntity<Object> handleAlreadyExistException(AlreadyExistException ex) {
+        String errorMessage = "Resource already exists: " + ex.getMessage();
+        return buildErrorResponse(HttpStatus.NOT_FOUND, errorMessage);
+    }
     @ExceptionHandler(NotFoundException.class)
     protected ResponseEntity<Object> handleNotFoundException(NotFoundException ex) {
         String errorMessage = "Resource not found: " + ex.getMessage();
         return buildErrorResponse(HttpStatus.NOT_FOUND, errorMessage);
+    }
+    @ExceptionHandler(AccessDeniedException.class)
+    protected ResponseEntity<Object> handleAccessDeniedException(AccessDeniedException ex) {
+        String errorMessage = "Access denied: " + ex.getMessage();
+        return buildErrorResponse(HttpStatus.FORBIDDEN, errorMessage);
     }
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Object> handleMethodArgumentNotValidException(MethodArgumentNotValidException ex) {
