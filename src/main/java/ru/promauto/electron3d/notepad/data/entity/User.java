@@ -7,25 +7,19 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
-import java.util.Map;
 
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
-public class Note {
+public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String text;
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
-    @OneToMany(mappedBy = "note")
+    private String name;
+    @OneToMany(mappedBy = "user")
+    private List<Note> notes;
+    @OneToMany(mappedBy = "user")
     private List<Comment> comments;
-    @Enumerated(EnumType.STRING)
-    private Tag tag;
-    @ElementCollection
-    private Map<String, Boolean> checkList;
 }
