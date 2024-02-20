@@ -36,7 +36,7 @@ public class NoteController {
         return new RestResponse(noteService.findAll(userId)
                 .stream()
                 .map(noteMapper::entityToDto)
-                .collect(Collectors.toList()));
+                .toList());
     }
 
     @GetMapping

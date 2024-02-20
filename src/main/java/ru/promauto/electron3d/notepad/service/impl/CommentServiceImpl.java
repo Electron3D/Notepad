@@ -24,11 +24,6 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public void updateById(Long userId, Long id, Comment comment) {
-
-    }
-
-    @Override
     public void deleteById(Long userId, Long id) {
 
     }
