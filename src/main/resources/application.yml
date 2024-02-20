@@ -1,18 +1,18 @@
 spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/notepad_db
-    username: user
-    password: password
+    username: root
+    password: root
     driver-class-name: org.postgresql.Driver
     hikari:
       maximum-pool-size: 5
       connection-timeout: 60000
   jpa:
     hibernate:
-      ddl-auto: validate
+      ddl-auto: create-drop
     show-sql: true
     database: postgresql
-    database-platform: org.hibernate.dialect.PostgreSQL10Dialect
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
 server:
   error:
     include-message: always

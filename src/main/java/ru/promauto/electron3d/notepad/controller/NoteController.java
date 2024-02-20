@@ -3,7 +3,7 @@ package ru.promauto.electron3d.notepad.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import ru.promauto.electron3d.notepad.data.NoteMapper;
+import ru.promauto.electron3d.notepad.data.mapper.NoteMapper;
 import ru.promauto.electron3d.notepad.data.RestResponse;
 import ru.promauto.electron3d.notepad.data.dto.NoteDto;
 import ru.promauto.electron3d.notepad.service.NoteService;
@@ -25,11 +25,13 @@ public class NoteController {
     }
 
     @GetMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
     public RestResponse getNoteById(@PathVariable Long userId, @PathVariable Long id) {
         return new RestResponse(noteMapper.entityToDto(noteService.findById(userId, id)));
     }
 
     @GetMapping
+    @ResponseStatus(HttpStatus.OK)
     public RestResponse getAllNotes(@PathVariable Long userId) {
         return new RestResponse(noteService.findAll(userId)
                 .stream()
@@ -37,7 +39,17 @@ public class NoteController {
                 .collect(Collectors.toList()));
     }
 
+    @GetMapping
+    @ResponseStatus(HttpStatus.OK)
+    public RestResponse getAllNotesByTag(@PathVariable Long userId, @RequestParam(name = "tag") String tag) {
+        return new RestResponse(noteService.findAllByTag(userId, tag)
+                .stream()
+                .map(noteMapper::entityToDto)
+                .collect(Collectors.toList()));
+    }
+
     @PutMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
     public RestResponse updateNoteById(@PathVariable Long userId,
                                        @PathVariable Long id,
                                        @RequestBody NoteDto noteDto) {

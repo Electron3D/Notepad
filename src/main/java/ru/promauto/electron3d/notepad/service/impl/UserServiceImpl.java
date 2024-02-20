@@ -9,6 +9,7 @@ import ru.promauto.electron3d.notepad.exception.NotFoundException;
 import ru.promauto.electron3d.notepad.repository.UserRepository;
 import ru.promauto.electron3d.notepad.service.UserService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -19,9 +20,11 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public void create(User user) {
-        if (userRepository.findByName(user.getNickname()).isPresent()) {
-            throw new AlreadyExistException("User with this nickname already exist.");
+        if (userRepository.findByNickname(user.getNickname()).isPresent()) {
+            throw new AlreadyExistException("The nickname is already in use.");
         }
+        user.setNotes(new ArrayList<>());
+        user.setComments(new ArrayList<>());
         userRepository.save(user);
     }
 
@@ -44,6 +47,7 @@ public class UserServiceImpl implements UserService {
         User existedUser = userRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("User with ID: \"" + id + "\" not found."));
         existedUser.setNickname(user.getNickname());
+        userRepository.save(existedUser);
     }
 
     @Override

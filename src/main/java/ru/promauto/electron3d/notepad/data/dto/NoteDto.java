@@ -16,7 +16,7 @@ import java.util.Map;
 public class NoteDto {
     @NotNull
     private String text;
-    private String user;
+    private String userNickname;
     private List<String> comments;
     private String tag;
     private Map<String, Boolean> checkList;

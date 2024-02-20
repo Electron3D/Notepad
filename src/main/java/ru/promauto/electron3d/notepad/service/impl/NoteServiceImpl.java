@@ -1,17 +1,18 @@
 package ru.promauto.electron3d.notepad.service.impl;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.promauto.electron3d.notepad.data.entity.Note;
+import ru.promauto.electron3d.notepad.data.entity.Tag;
 import ru.promauto.electron3d.notepad.data.entity.User;
 import ru.promauto.electron3d.notepad.exception.NotFoundException;
 import ru.promauto.electron3d.notepad.repository.NoteRepository;
 import ru.promauto.electron3d.notepad.repository.UserRepository;
 import ru.promauto.electron3d.notepad.service.NoteService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -49,11 +50,23 @@ public class NoteServiceImpl implements NoteService {
     }
 
     @Override
+    @Transactional(readOnly = true)
+    public List<Note> findAllByTag(Long userId, String tag) {
+        if (userRepository.existsById(userId)) {
+            return noteRepository
+                    .findAllByUserIdAndTag(userId, Tag.valueOf(tag))
+                    .orElse(new ArrayList<>());
+        } else {
+            throw new NotFoundException("User with ID: \"" + userId + "\" not found.");
+        }
+    }
+
+    @Override
     @Transactional
     public void updateById(Long userId, Long id, Note note) {
         Note existedNote = noteRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Note with ID: \"" + id + "\" not found."));
-        User user = note.getUser();
+        User user = existedNote.getUser();
         if (user.getId().equals(userId)) {
             existedNote.setText(note.getText());
             existedNote.setTag(note.getTag());

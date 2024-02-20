@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import ru.promauto.electron3d.notepad.data.RestResponse;
-import ru.promauto.electron3d.notepad.data.UserMapper;
+import ru.promauto.electron3d.notepad.data.mapper.UserMapper;
 import ru.promauto.electron3d.notepad.data.dto.UserDto;
 import ru.promauto.electron3d.notepad.service.UserService;
 
@@ -25,6 +25,7 @@ public class UserController {
     }
 
     @GetMapping
+    @ResponseStatus(HttpStatus.OK)
     public RestResponse getAllUsers() {
         return new RestResponse(userService.findAll()
                 .stream()
@@ -33,11 +34,13 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
     public RestResponse getUserById(@PathVariable Long id) {
         return new RestResponse(userMapper.entityToDto(userService.findById(id)));
     }
 
     @PutMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
     public RestResponse updateUserById(@PathVariable Long id, @RequestBody UserDto userDto) {
         userService.updateById(id, userMapper.dtoToEntity(userDto));
         return new RestResponse("User with ID \"" + id + "\" updated.");
