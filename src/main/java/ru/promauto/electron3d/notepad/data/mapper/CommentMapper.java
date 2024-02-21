@@ -7,8 +7,6 @@ import ru.promauto.electron3d.notepad.data.entity.Comment;
 import ru.promauto.electron3d.notepad.exception.NotFoundException;
 import ru.promauto.electron3d.notepad.repository.CommentRepository;
 import ru.promauto.electron3d.notepad.repository.UserRepository;
-import ru.promauto.electron3d.notepad.service.CommentService;
-import ru.promauto.electron3d.notepad.service.UserService;
 
 @Component
 @RequiredArgsConstructor
