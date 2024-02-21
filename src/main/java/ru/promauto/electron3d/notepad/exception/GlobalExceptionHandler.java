@@ -1,6 +1,7 @@
 package ru.promauto.electron3d.notepad.exception;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import jakarta.validation.ConstraintViolationException;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.context.support.DefaultMessageSourceResolvable;

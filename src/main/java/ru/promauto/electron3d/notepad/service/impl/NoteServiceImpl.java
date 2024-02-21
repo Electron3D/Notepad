@@ -44,14 +44,14 @@ public class NoteServiceImpl implements NoteService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<Note> findAll(Long userId) {
+    public List<Note> findAllByUserId(Long userId) {
         User user = getUserIfExist(userId);
         return user.getNotes();
     }
 
     @Override
     @Transactional(readOnly = true)
-    public List<Note> findAllByTag(Long userId, String tag) {
+    public List<Note> findAllByUserIdAndTag(Long userId, String tag) {
         if (userRepository.existsById(userId)) {
             return noteRepository
                     .findAllByUserIdAndTag(userId, Tag.valueOf(tag))
@@ -62,6 +62,12 @@ public class NoteServiceImpl implements NoteService {
     }
 
     @Override
+    @Transactional(readOnly = true)
+    public List<Note> findAllPublic(Long userId) {
+        return noteRepository.findAllByUserIdOrAccessModifier_Public(userId).orElse(new ArrayList<>());
+    }
+
+    @Override
     @Transactional
     public void updateById(Long userId, Long id, Note note) {
         Note existedNote = noteRepository.findById(id)
@@ -69,6 +75,7 @@ public class NoteServiceImpl implements NoteService {
         User user = existedNote.getUser();
         if (user.getId().equals(userId)) {
             existedNote.setText(note.getText());
+            existedNote.setAccessModifier(note.getAccessModifier());
             existedNote.setTag(note.getTag());
             existedNote.setCheckList(note.getCheckList());
         } else {

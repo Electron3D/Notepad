@@ -1,6 +1,7 @@
 package ru.promauto.electron3d.notepad.data.dto;
 
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,6 +17,8 @@ import java.util.Map;
 public class NoteDto {
     @NotNull
     private String text;
+    @Pattern(regexp = "^(public|private)$", message = "Only 'public' and 'private' values is allowed")
+    private String accessModifier;
     private String userNickname;
     private List<String> comments;
     private String tag;

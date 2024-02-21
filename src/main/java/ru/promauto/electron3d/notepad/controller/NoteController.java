@@ -1,5 +1,6 @@
 package ru.promauto.electron3d.notepad.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +20,7 @@ public class NoteController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public RestResponse createNote(@PathVariable Long userId, @RequestBody NoteDto noteDto) {
+    public RestResponse createNote(@PathVariable Long userId, @RequestBody @Valid NoteDto noteDto) {
         noteService.create(userId, noteMapper.dtoToEntity(noteDto));
         return new RestResponse("Note created.");
     }
@@ -32,8 +33,17 @@ public class NoteController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public RestResponse getAllNotes(@PathVariable Long userId) {
-        return new RestResponse(noteService.findAll(userId)
+    public RestResponse getAllNotesByUserId(@PathVariable Long userId) {
+        return new RestResponse(noteService.findAllByUserId(userId)
+                .stream()
+                .map(noteMapper::entityToDto)
+                .toList());
+    }
+
+    @GetMapping("/public")
+    @ResponseStatus(HttpStatus.OK)
+    public RestResponse getAllPublicNotes(@PathVariable Long userId) {
+        return new RestResponse(noteService.findAllPublic(userId)
                 .stream()
                 .map(noteMapper::entityToDto)
                 .toList());
@@ -42,7 +52,7 @@ public class NoteController {
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public RestResponse getAllNotesByTag(@PathVariable Long userId, @RequestParam(name = "tag") String tag) {
-        return new RestResponse(noteService.findAllByTag(userId, tag)
+        return new RestResponse(noteService.findAllByUserIdAndTag(userId, tag)
                 .stream()
                 .map(noteMapper::entityToDto)
                 .collect(Collectors.toList()));

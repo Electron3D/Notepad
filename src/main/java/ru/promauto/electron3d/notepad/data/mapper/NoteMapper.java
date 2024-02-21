@@ -2,6 +2,7 @@ package ru.promauto.electron3d.notepad.data.mapper;
 
 import org.springframework.stereotype.Component;
 import ru.promauto.electron3d.notepad.data.dto.NoteDto;
+import ru.promauto.electron3d.notepad.data.entity.AccessModifier;
 import ru.promauto.electron3d.notepad.data.entity.Comment;
 import ru.promauto.electron3d.notepad.data.entity.Note;
 import ru.promauto.electron3d.notepad.data.entity.Tag;
@@ -12,6 +13,7 @@ public class NoteMapper extends AbstractMapper<Note, NoteDto> {
     public Note dtoToEntity(NoteDto noteDto) {
         Note note = new Note();
         note.setText(noteDto.getText());
+        note.setAccessModifier(AccessModifier.valueOf(noteDto.getAccessModifier()));
         note.setTag(Tag.valueOf(noteDto.getTag()));
         note.setCheckList(noteDto.getCheckList());
         return note;
@@ -21,6 +23,7 @@ public class NoteMapper extends AbstractMapper<Note, NoteDto> {
     public NoteDto entityToDto(Note note) {
         NoteDto noteDto = new NoteDto();
         noteDto.setText(note.getText());
+        noteDto.setAccessModifier(note.getAccessModifier().name());
         noteDto.setUserNickname(note.getUser().getNickname());
         noteDto.setComments(note.getComments()
                 .stream()

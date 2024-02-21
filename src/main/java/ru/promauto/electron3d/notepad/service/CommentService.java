@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface CommentService {
     void create(Long userId, Comment comment);
-    Comment findById(Long userId, Long id);
-    List<Comment> findAll(Long userId);
+    Comment findById(Long id);
+    List<Comment> findAllByNoteId(Long noteId);
     void deleteById(Long userId, Long id);
 }

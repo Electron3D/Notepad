@@ -1,5 +1,6 @@
 package ru.promauto.electron3d.notepad.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +20,7 @@ public class UserController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public RestResponse createUser(@RequestBody UserDto userDto) {
+    public RestResponse createUser(@RequestBody @Valid UserDto userDto) {
         userService.create(userMapper.dtoToEntity(userDto));
         return new RestResponse("User created");
     }

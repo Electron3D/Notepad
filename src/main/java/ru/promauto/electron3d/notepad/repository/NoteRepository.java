@@ -11,4 +11,5 @@ import java.util.Optional;
 @Repository
 public interface NoteRepository extends JpaRepository<Note, Long> {
     Optional<List<Note>> findAllByUserIdAndTag(Long userId, Tag tag);
+    Optional<List<Note>> findAllByUserIdOrAccessModifier_Public(Long userId);
 }

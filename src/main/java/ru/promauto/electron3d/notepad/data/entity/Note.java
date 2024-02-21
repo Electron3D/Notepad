@@ -19,6 +19,8 @@ public class Note {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String text;
+    @Enumerated(EnumType.STRING)
+    private AccessModifier accessModifier;
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;

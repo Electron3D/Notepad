@@ -1,5 +1,6 @@
 package ru.promauto.electron3d.notepad.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -9,41 +10,39 @@ import ru.promauto.electron3d.notepad.data.mapper.CommentMapper;
 import ru.promauto.electron3d.notepad.service.CommentService;
 
 @RestController
-@RequestMapping("/users/{userId}/comments")
 @RequiredArgsConstructor
 public class CommentController {
     private final CommentService commentService;
     private final CommentMapper commentMapper;
 
-    @PostMapping
+    @PostMapping("/notes/{noteId}/comments")
     @ResponseStatus(HttpStatus.CREATED)
-    public RestResponse createComment(@PathVariable Long userId,
-                                      @RequestBody CommentDto commentDto) {
-        commentService.create(userId, commentMapper.dtoToEntity(commentDto));
+    public RestResponse createComment(@PathVariable Long noteId,
+                                      @RequestBody @Valid CommentDto commentDto) {
+        commentService.create(noteId, commentMapper.dtoToEntity(commentDto));
         return new RestResponse("Comment created.");
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/comments/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public RestResponse getCommentById(@PathVariable Long userId,
-                                       @PathVariable Long id) {
-        return new RestResponse(commentMapper.entityToDto(commentService.findById(userId, id)));
+    public RestResponse getCommentById(@PathVariable Long id) {
+        return new RestResponse(commentMapper.entityToDto(commentService.findById(id)));
     }
 
-    @GetMapping
+    @GetMapping("/notes/{noteId}/comments")
     @ResponseStatus(HttpStatus.OK)
-    public RestResponse getAllCommentsForUserId(@PathVariable Long userId) {
-        return new RestResponse(commentService.findAll(userId)
+    public RestResponse getAllCommentsByNoteId(@PathVariable Long noteId) {
+        return new RestResponse(commentService.findAllByNoteId(noteId)
                 .stream()
                 .map(commentMapper::entityToDto)
                 .toList());
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/notes/{noteId}/comments/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public RestResponse deleteCommentById(@PathVariable Long userId,
+    public RestResponse deleteCommentById(@PathVariable Long noteId,
                                           @PathVariable Long id) {
-        commentService.deleteById(userId, id);
+        commentService.deleteById(noteId, id);
         return new RestResponse("Comment with ID \"" + id + "\" deleted.");
     }
 }
