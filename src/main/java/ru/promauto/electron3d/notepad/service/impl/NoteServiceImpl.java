@@ -1,12 +1,12 @@
 package ru.promauto.electron3d.notepad.service.impl;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.promauto.electron3d.notepad.data.entity.Note;
 import ru.promauto.electron3d.notepad.data.entity.Tag;
 import ru.promauto.electron3d.notepad.data.entity.User;
+import ru.promauto.electron3d.notepad.exception.AccessDeniedException;
 import ru.promauto.electron3d.notepad.exception.NotFoundException;
 import ru.promauto.electron3d.notepad.repository.NoteRepository;
 import ru.promauto.electron3d.notepad.repository.UserRepository;
@@ -64,7 +64,7 @@ public class NoteServiceImpl implements NoteService {
     @Override
     @Transactional(readOnly = true)
     public List<Note> findAllPublic(Long userId) {
-        return noteRepository.findAllByUserIdOrAccessModifier_Public(userId).orElse(new ArrayList<>());
+        return noteRepository.findAllByUserIdOrAccessModifierPublic(userId).orElse(new ArrayList<>());
     }
 
     @Override

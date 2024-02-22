@@ -49,7 +49,7 @@ public class NoteController {
                 .toList());
     }
 
-    @GetMapping
+    @GetMapping("/tag")
     @ResponseStatus(HttpStatus.OK)
     public RestResponse getAllNotesByTag(@PathVariable Long userId, @RequestParam(name = "tag") String tag) {
         return new RestResponse(noteService.findAllByUserIdAndTag(userId, tag)
@@ -68,7 +68,6 @@ public class NoteController {
     }
 
     @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
     public RestResponse deleteNoteById(@PathVariable Long userId, @PathVariable Long id) {
         noteService.deleteById(userId, id);
         return new RestResponse("Note with ID \"" + id + "\" deleted.");

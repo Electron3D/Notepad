@@ -11,6 +11,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
+@Table(name="comments")
 public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,6 +21,6 @@ public class Comment {
     @JoinColumn(name = "user_id")
     private User user;
     @ManyToOne(cascade = CascadeType.REMOVE)
-    @JoinColumn(name = "parentComment_id")
+    @JoinColumn(name = "parent_comment_id")
     private Comment parentComment;
 }

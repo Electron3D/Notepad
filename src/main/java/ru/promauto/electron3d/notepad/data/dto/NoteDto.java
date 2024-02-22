@@ -17,7 +17,7 @@ import java.util.Map;
 public class NoteDto {
     @NotNull
     private String text;
-    @Pattern(regexp = "^(public|private)$", message = "Only 'public' and 'private' values is allowed")
+    @Pattern(regexp = "^(PUBLIC|PRIVATE)$", message = "Only 'PUBLIC' and 'PRIVATE' values is allowed")
     private String accessModifier;
     private String userNickname;
     private List<String> comments;

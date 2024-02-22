@@ -1,13 +1,11 @@
 package ru.promauto.electron3d.notepad.exception;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import jakarta.validation.ConstraintViolationException;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -21,7 +19,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(AlreadyExistException.class)
     protected ResponseEntity<Object> handleAlreadyExistException(AlreadyExistException ex) {
         String errorMessage = "Resource already exists: " + ex.getMessage();
-        return buildErrorResponse(HttpStatus.NOT_FOUND, errorMessage);
+        return buildErrorResponse(HttpStatus.BAD_REQUEST, errorMessage);
     }
     @ExceptionHandler(NotFoundException.class)
     protected ResponseEntity<Object> handleNotFoundException(NotFoundException ex) {

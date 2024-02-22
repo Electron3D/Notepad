@@ -39,7 +39,6 @@ public class CommentController {
     }
 
     @DeleteMapping("/notes/{noteId}/comments/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
     public RestResponse deleteCommentById(@PathVariable Long noteId,
                                           @PathVariable Long id) {
         commentService.deleteById(noteId, id);

@@ -14,6 +14,7 @@ import java.util.Map;
 @AllArgsConstructor
 @Getter
 @Setter
+@Table(name="notes")
 public class Note {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,10 +25,13 @@ public class Note {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
-    @OneToMany(mappedBy = "note", cascade = CascadeType.REMOVE)
+    @OneToMany(cascade = CascadeType.REMOVE)
     private List<Comment> comments;
     @Enumerated(EnumType.STRING)
     private Tag tag;
     @ElementCollection
+    @CollectionTable(name = "note_check_list", joinColumns = @JoinColumn(name = "note_id"))
+    @MapKeyColumn(name = "key")
+    @Column(name = "value")
     private Map<String, Boolean> checkList;
 }

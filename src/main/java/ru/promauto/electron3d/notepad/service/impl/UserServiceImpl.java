@@ -11,6 +11,7 @@ import ru.promauto.electron3d.notepad.service.UserService;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
