@@ -1,0 +1,30 @@
+services:
+  app:
+    image: notepad-app
+    build:
+      context: .
+    container_name: notepad-app
+    networks:
+      - mynetwork
+    depends_on:
+      - postgres
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/notepad_db
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=root
+    ports:
+      - "8082:8082"
+
+  postgres:
+    networks:
+      - mynetwork
+    image: postgres:latest
+    environment:
+      - POSTGRES_DB=notepad_db
+      - POSTGRES_PASSWORD=root
+      - POSTGRES_USER=root
+    ports:
+      - "5432:5432"
+
+networks:
+  mynetwork:

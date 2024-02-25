@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>ru.promauto.electron3d</groupId>
 	<artifactId>notepad</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0</version>
 	<name>Notepad</name>
 	<description>Test project for Backend developer vacancy</description>
 	<properties>
@@ -35,15 +35,10 @@
 			<artifactId>liquibase-core</artifactId>
 			<version>4.24.0</version>
 		</dependency>
-		<!--<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-docker-compose</artifactId>
-			<scope>runtime</scope>
-			<optional>true</optional>
-		</dependency>-->
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
+			<version>42.7.2</version>
 			<scope>runtime</scope>
 		</dependency>
 		<dependency>
