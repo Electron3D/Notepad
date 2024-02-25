@@ -15,8 +15,6 @@ public class CommentDto {
     @NotNull
     @NotBlank
     private String text;
-    @NotNull
-    @NotBlank
     private String userNickname;
     private Long parentCommentId;
 }

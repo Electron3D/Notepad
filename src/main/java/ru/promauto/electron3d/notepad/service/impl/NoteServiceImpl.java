@@ -34,7 +34,7 @@ public class NoteServiceImpl implements NoteService {
     @Transactional(readOnly = true)
     public Note findById(Long userId, Long id) {
         Note note = noteRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("Note with ID: \"" + id + "\" not found."));
+                .orElseThrow(() -> new NotFoundException("Note with ID: " + id + " not found."));
         if (note.getUser().getId().equals(userId)) {
             return note;
         } else {
@@ -57,7 +57,7 @@ public class NoteServiceImpl implements NoteService {
                     .findAllByUserIdAndTag(userId, Tag.valueOf(tag))
                     .orElse(new ArrayList<>());
         } else {
-            throw new NotFoundException("User with ID: \"" + userId + "\" not found.");
+            throw new NotFoundException("User with ID: " + userId + " not found.");
         }
     }
 
@@ -71,7 +71,7 @@ public class NoteServiceImpl implements NoteService {
     @Transactional
     public void updateById(Long userId, Long id, Note note) {
         Note existedNote = noteRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("Note with ID: \"" + id + "\" not found."));
+                .orElseThrow(() -> new NotFoundException("Note with ID: " + id + " not found."));
         User user = existedNote.getUser();
         if (user.getId().equals(userId)) {
             existedNote.setText(note.getText());
@@ -87,7 +87,7 @@ public class NoteServiceImpl implements NoteService {
     @Transactional
     public void deleteById(Long userId, Long id) {
         Note note = noteRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("Note with ID: \"" + id + "\" not found."));
+                .orElseThrow(() -> new NotFoundException("Note with ID: " + id + " not found."));
         User user = note.getUser();
         if (user.getId().equals(userId)) {
             user.getNotes().remove(note);
@@ -99,6 +99,6 @@ public class NoteServiceImpl implements NoteService {
 
     private User getUserIfExist(Long userId) {
         return userRepository.findById(userId)
-                .orElseThrow(() -> new NotFoundException("User with ID: \"" + userId + "\" not found."));
+                .orElseThrow(() -> new NotFoundException("User with ID: " + userId + " not found."));
     }
 }

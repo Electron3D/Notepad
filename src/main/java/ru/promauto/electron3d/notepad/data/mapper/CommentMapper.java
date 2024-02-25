@@ -6,26 +6,22 @@ import ru.promauto.electron3d.notepad.data.dto.CommentDto;
 import ru.promauto.electron3d.notepad.data.entity.Comment;
 import ru.promauto.electron3d.notepad.exception.NotFoundException;
 import ru.promauto.electron3d.notepad.repository.CommentRepository;
-import ru.promauto.electron3d.notepad.repository.UserRepository;
 
 @Component
 @RequiredArgsConstructor
 public class CommentMapper extends AbstractMapper<Comment, CommentDto> {
     private final CommentRepository commentRepository;
-    private final UserRepository userRepository;
     @Override
     public Comment dtoToEntity(CommentDto commentDto) {
         Comment comment = new Comment();
         comment.setText(commentDto.getText());
         Long parentCommentId = commentDto.getParentCommentId();
-        Comment parentComment = commentRepository
-                .findById(parentCommentId)
-                .orElseThrow(() -> new NotFoundException("Parent comment with ID: \"" + parentCommentId + "\" not found."));
-        comment.setParentComment(parentComment);
-        String userNickname = commentDto.getUserNickname();
-        comment.setUser(userRepository
-                .findByNickname(userNickname)
-                .orElseThrow(() -> new NotFoundException("User with nickname: \"" + userNickname + "\" not found.")));
+        if (parentCommentId != null) {
+            Comment parentComment = commentRepository
+                    .findById(parentCommentId)
+                    .orElseThrow(() -> new NotFoundException("Parent comment with ID: \"" + parentCommentId + "\" not found."));
+            comment.setParentComment(parentComment);
+        }
         return comment;
     }
 

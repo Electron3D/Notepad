@@ -29,7 +29,7 @@ public class UserController {
     @Operation(summary = "Create user")
     public RestResponse createUser(
             @io.swagger.v3.oas.annotations.parameters.RequestBody(
-                    description = "Request body in JSON format",
+                    description = "UserDto as request body in JSON format",
                     required = true) @RequestBody @Valid UserDto userDto) {
         userService.create(userMapper.dtoToEntity(userDto));
         return new RestResponse("User created");
@@ -55,18 +55,19 @@ public class UserController {
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Update user by ID")
-    public RestResponse updateUserById(@Parameter(description = "user ID", required = true) @PathVariable Long id,
-                                       @io.swagger.v3.oas.annotations.parameters.RequestBody(
-                                               description = "Request body in JSON format",
-                                               required = true) @RequestBody UserDto userDto) {
+    public RestResponse updateUserById(
+            @Parameter(description = "user ID", required = true) @PathVariable Long id,
+            @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    description = "UserDto as request body in JSON format",
+                    required = true) @RequestBody UserDto userDto) {
         userService.updateById(id, userMapper.dtoToEntity(userDto));
-        return new RestResponse("User with ID \"" + id + "\" updated.");
+        return new RestResponse("User with ID " + id + " updated.");
     }
 
     @DeleteMapping("/{id}")
     @Operation(summary = "Delete user by ID")
     public RestResponse deleteUserById(@Parameter(description = "user ID", required = true) @PathVariable Long id) {
         userService.deleteById(id);
-        return new RestResponse("User with ID: \"" + id + "\" deleted");
+        return new RestResponse("User with ID: " + id + " deleted");
     }
 }

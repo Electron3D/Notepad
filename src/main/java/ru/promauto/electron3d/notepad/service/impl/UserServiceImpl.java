@@ -32,7 +32,7 @@ public class UserServiceImpl implements UserService {
     @Transactional(readOnly = true)
     public User findById(Long id) {
         return userRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("User with ID: \"" + id + "\" not found."));
+                .orElseThrow(() -> new NotFoundException("User with ID: " + id + " not found."));
     }
 
     @Override
@@ -45,7 +45,7 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public void updateById(Long id, User user) {
         User existedUser = userRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("User with ID: \"" + id + "\" not found."));
+                .orElseThrow(() -> new NotFoundException("User with ID: " + id + " not found."));
         existedUser.setNickname(user.getNickname());
         userRepository.save(existedUser);
     }
